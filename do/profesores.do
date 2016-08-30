@@ -75,6 +75,8 @@ gen month = month(date)
 replace subject = "mat" if strpos(lower(subject), "mat")
 replace subject = "leng" if strpos(lower(subject), "leng")
 drop if subject != "mat" & subject != "leng"
+encode subject, gen(asignatura)
+drop subject
 
 * RBD
 *-------------------------------------------------------------------------------
