@@ -40,7 +40,7 @@ if `import' == 1 {
 			qui append using `comunadta'
 			qui save data/profesores.dta, replace
 		}
-		di "`comuna' lista"
+		di "Comuna `comuna' ok"
 	}
 }
 
@@ -85,6 +85,37 @@ drop rbd
 rename (rbd1 rbd2) (rbd rbd_dv)
 destring rbd*, replace
 
+* Code y motivos
+*-------------------------------------------------------------------------------
+replace code = "Permiso" if strpos(code, "P")
+replace code = "Licencia" if strpos(code, "L")
+replace code = "Movilizacion" if strpos(code, "M")
+replace code = "" if code != "Permiso" & code != "Licencia" & code != "Movilizacion"
+
+// Discrepancias entre codigo y motivos
+replace code = "Licencia" if code == "Permiso" & motivos == "L" // suponiendo que permiso por licencia es licencia
+replace code = "Movilizacion" if code == "Licencia" & motivos == "M" // suponiendo que licencia por movilizacion es movilizacion
+
+// Completar codigo si esta vacio y hay motivo que lo indique
+replace code = "Permiso" if code == "" & ///
+	motivos == "P" | ///
+	motivos == "P (1/2)" | ///
+	motivos == "P(1/2)"
+	
+replace code = "Licencia" if code == "" & ///
+	motivos == "L"
+
+replace code = "Movilizacion" if code == "" & ///
+	motivos == "L/M" | ///
+	motivos == "M" | ///
+	motivos == "M/P"
+	
+// Codificar code
+encode code, gen(codigo)
+
+// Variable ausencia
+gen byte ausente = (!mi(codigo) | !mi(motivos))
+	
 * Etiquetas
 *-------------------------------------------------------------------------------
 lab var comuna "Comuna"
