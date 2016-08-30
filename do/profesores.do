@@ -85,5 +85,12 @@ drop rbd
 rename (rbd1 rbd2) (rbd rbd_dv)
 destring rbd*, replace
 
-
-
+* Etiquetas
+*-------------------------------------------------------------------------------
+lab var comuna "Comuna"
+lab var date "Fecha"
+lab var year "Año"
+lab var month "Mes"
+lab var asignatura "Asignatura"
+lab var rbd "RBD"
+lab var rbd_dv "RBD digito verificador"
