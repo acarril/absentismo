@@ -1,3 +1,14 @@
 .dropbox
-data/*
+data/
+input/
+Modificado/
+Original/
 desktop.ini
+*.xlsx
+*.xls
+*.dof
+*.dta
+*.rar
+*.jpg
+*.pdf
+*.zip
